@@ -42,10 +42,12 @@ void print_test_header(const char* file, int line, const char* test_name) {
 
 #define START_TEST(name) const char* test_name = name;
 
-#define END_TEST()                                                                                 \
+#define END_TEST(cleanup)                                                                          \
     do {                                                                                           \
         (void)test_name;                                                                           \
         tests_passed++;                                                                            \
+cleanup_test:                                                                                      \
+        { cleanup }                                                                                \
         return;                                                                                    \
     } while (0)
 
@@ -65,7 +67,7 @@ void print_test_header(const char* file, int line, const char* test_name) {
             print_test_header(__FILE__, __LINE__, test_name);                                      \
             printf("    EXPECT(%s)\n", #expected);                                                 \
             print_colored(COLOR_GREEN, "    ^\n");                                                 \
-            return;                                                                                \
+            goto cleanup_test;                                                                     \
         }                                                                                          \
     } while (0)
 
@@ -80,7 +82,7 @@ void print_test_header(const char* file, int line, const char* test_name) {
             print_test_header(__FILE__, __LINE__, test_name);                                      \
             printf("    EXPECT_INT_EQUAL(%s, %s)\n", #expected, #actual);                          \
             print_colored(COLOR_GREEN, "    ^\n");                                                 \
-            return;                                                                                \
+            goto cleanup_test;                                                                     \
         }                                                                                          \
     } while (0)
 
@@ -95,7 +97,7 @@ void print_test_header(const char* file, int line, const char* test_name) {
             print_test_header(__FILE__, __LINE__, test_name);                                      \
             printf("    EXPECT_FLOAT_EQUAL(%s, %s)\n", #expected, #actual);                        \
             print_colored(COLOR_GREEN, "    ^\n");                                                 \
-            return;                                                                                \
+            goto cleanup_test;                                                                     \
         }                                                                                          \
     } while (0)
 
@@ -111,7 +113,7 @@ void print_test_header(const char* file, int line, const char* test_name) {
             print_test_header(__FILE__, __LINE__, test_name);                                      \
             printf("    EXPECT_STRING_EQUAL(%s, %s)\n", #expected, #actual);                       \
             print_colored(COLOR_GREEN, "    ^\n");                                                 \
-            return;                                                                                \
+            goto cleanup_test;                                                                     \
         }                                                                                          \
     } while (0)
 

@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "cunittest.h"
 
 // A test is declared like this
@@ -10,15 +11,25 @@ TEST add_numbers() {
     EXPECT_FLOAT_EQUAL(1.5, 1 + 0.5);  // Floating point (always converted to double)
     EXPECT_STRING_EQUAL("2", "1 + 1"); // Strings
     
-    // When not skipping a test, it must end with END_TEST
-    END_TEST();
+    // When any EXPECT macro is used, it must end with END_TEST
+    END_TEST(
+        // This is called whenever an EXPECT fails or everything passes.
+        // Use it to clean up after the test.
+        printf("Now you see me...\n");
+    );
+    // You can also leave it empty:
+    // END_TEST();
 }
 
 TEST multiply_matices() {
     START_TEST("Multiply matrices");
+    // SKIP_TEST ends the test immediately, and no clean up is performed.
     SKIP_TEST(); // Matrices come in the C3 DLC.
     
-    END_TEST(); // This is optional but must come after SKIP_TEST
+    // This is optional because we didn't use any EXPECT macros.
+    END_TEST(
+        printf("Now you don't!\n");
+    );
 }
 
 int main(void) {
