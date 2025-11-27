@@ -9,7 +9,6 @@ Tutorial code in `example.c`.
 ## Features
 
 - Easy to grok (less than 150 lines)
-- Only depends on libc
 - Warns about unused tests
 - Prints nice error messages with links to failing source code (if your editor supports it)
 - Simple color coding of test results (recognize those test failures 0.05s faster!)

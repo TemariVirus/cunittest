@@ -44,8 +44,9 @@ void print_test_header(const char* file, int line, const char* test_name) {
 
 #define END_TEST(cleanup)                                                                          \
     do {                                                                                           \
-        (void)test_name;                                                                           \
+        (void)test_name; /* Did you forget START_TEST()? */                                        \
         tests_passed++;                                                                            \
+        goto cleanup_test;                                                                         \
 cleanup_test:                                                                                      \
         { cleanup }                                                                                \
         return;                                                                                    \
@@ -53,7 +54,7 @@ cleanup_test:                                                                   
 
 #define SKIP_TEST()                                                                                \
     do {                                                                                           \
-        (void)test_name;                                                                           \
+        (void)test_name; /* Did you forget START_TEST()? */                                        \
         tests_skipped++;                                                                           \
         return;                                                                                    \
     } while (0)
@@ -64,10 +65,10 @@ cleanup_test:                                                                   
             tests_failed++;                                                                        \
             printf("\n");                                                                          \
             printf("Expected true, found false\n");                                                \
-            print_test_header(__FILE__, __LINE__, test_name);                                      \
+            print_test_header(__FILE__, __LINE__, test_name); /* Did you forget START_TEST()? */   \
             printf("    EXPECT(%s)\n", #expected);                                                 \
             print_colored(COLOR_GREEN, "    ^\n");                                                 \
-            goto cleanup_test;                                                                     \
+            goto cleanup_test; /* Did you forget END_TEST()? */                                    \
         }                                                                                          \
     } while (0)
 
@@ -79,10 +80,10 @@ cleanup_test:                                                                   
             tests_failed++;                                                                        \
             printf("\n");                                                                          \
             printf("Expected %lli, found %lli\n", exp, act);                                       \
-            print_test_header(__FILE__, __LINE__, test_name);                                      \
+            print_test_header(__FILE__, __LINE__, test_name); /* Did you forget START_TEST()? */   \
             printf("    EXPECT_INT_EQUAL(%s, %s)\n", #expected, #actual);                          \
             print_colored(COLOR_GREEN, "    ^\n");                                                 \
-            goto cleanup_test;                                                                     \
+            goto cleanup_test; /* Did you forget END_TEST()? */                                    \
         }                                                                                          \
     } while (0)
 
@@ -94,10 +95,10 @@ cleanup_test:                                                                   
             tests_failed++;                                                                        \
             printf("\n");                                                                          \
             printf("Expected %.17g, found %.17g\n", exp, act);                                     \
-            print_test_header(__FILE__, __LINE__, test_name);                                      \
+            print_test_header(__FILE__, __LINE__, test_name); /* Did you forget START_TEST()? */   \
             printf("    EXPECT_FLOAT_EQUAL(%s, %s)\n", #expected, #actual);                        \
             print_colored(COLOR_GREEN, "    ^\n");                                                 \
-            goto cleanup_test;                                                                     \
+            goto cleanup_test; /* Did you forget END_TEST()? */                                    \
         }                                                                                          \
     } while (0)
 
@@ -110,10 +111,10 @@ cleanup_test:                                                                   
             printf("\n");                                                                          \
             printf("Expected \"%s\"\n", exp);                                                      \
             printf("Found    \"%s\"\n", act);                                                      \
-            print_test_header(__FILE__, __LINE__, test_name);                                      \
+            print_test_header(__FILE__, __LINE__, test_name); /* Did you forget START_TEST()? */   \
             printf("    EXPECT_STRING_EQUAL(%s, %s)\n", #expected, #actual);                       \
             print_colored(COLOR_GREEN, "    ^\n");                                                 \
-            goto cleanup_test;                                                                     \
+            goto cleanup_test; /* Did you forget END_TEST()? */                                    \
         }                                                                                          \
     } while (0)
 
