@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include "cunittest.h"
 
-// A test is declared like this
-TEST add_numbers(void) {
+// A test is declared like this (it's just a function)
+TEST add_numbers(int number_count) {
     // All tests must start with START_TEST
     START_TEST("Add numbers");
     
-    int* numbers = malloc(10 * sizeof(int));
+    int* numbers = malloc(number_count * sizeof(int));
     
     EXPECT(1 == 1);                    // Booleans
     EXPECT_INT_EQUAL(2, 1 + 1);        // Integers (always converted to long long)
@@ -32,7 +32,7 @@ TEST multiply_matices(void) {
 }
 
 int main(void) {
-    add_numbers();
+    add_numbers(100);
     multiply_matices();
 
     print_test_summary();
